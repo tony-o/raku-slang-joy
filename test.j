@@ -1,0 +1,17 @@
+[1 2 3] [dup *] map dumps.
+['A 'c 'B] first dumps.
+{'Z '0} first dumps.
+['A '0] [dup dup succ dup] map dumps.
+
+[0 1] [dup dup succ dup rem] map dumps.
+
+[ 3.14 42 [1 2 3] 0.003 ] dup concat dumps.
+
+[1 2 3]  [4 5 6 7]  concat dumps.
+
+DEFINE square == dup *.
+DEFINE cube == dup dup * *.
+5 square dumps.
+5 cube dumps.
+
+"hello" 5 *.

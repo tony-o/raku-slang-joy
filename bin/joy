@@ -1,0 +1,35 @@
+#!/usr/bin/env raku
+
+use lib 'lib';
+use Slang::Joy;
+multi MAIN(*@FILES) {
+  for @FILES {
+    die "$_ not found" unless $_.IO.f;
+    joy-run($_.IO.slurp);
+  }
+}
+
+multi MAIN() {
+  my $ENV   := Slang::Joy::Env.new;
+  my %STATE := { parr => [], :repl-out };
+  my @STACK := [];
+  say '>>= starting repl.';
+  say '>>=   type #no  - to suppress auto echo of stack.';
+  say '>>=        #out - to reverse #no.';
+  say '>>=        #q   - to quit and only dream of joy.';
+  say '';
+  while True {
+    my $in = prompt('> ') while ($in//'').chars == 0;
+    if $in.substr(0, 1) eq '#' {
+      if $in ~~ /^'#no'$/ {
+        %STATE<repl-out> = 0;
+      } elsif $in ~~ /^'#out'$/ {
+        %STATE<repl-out> = 1;
+      } elsif $in ~~ /^'#q'$/ {
+        exit 0;
+      }
+      next;
+    }
+    joy-run($in, :$ENV, :%STATE, :@STACK);
+  }
+}
