@@ -20,6 +20,11 @@ token tokens {
   ||<string>
   ||<definition>
   ||<ident>
+  ||<comment>
+}
+
+token comment {
+  '(*' ~ '*)' .+?
 }
 
 token definition {
